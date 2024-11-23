@@ -10,6 +10,7 @@
     "watch": "ts-node-dev dist/server.js",
     "nodemon": "start src/server.ts",
     "dev": "nodemon",
+    "prettier": "prettier \"src/**/*.ts\" --ignore-path .gitignore --write",
     "format": "prettier . --write"
   },
   "keywords": [],
