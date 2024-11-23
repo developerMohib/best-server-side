@@ -8,7 +8,7 @@ app.use(cors())
 // middle wares
 const someData = (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log("from middle war", req.hostname);
+        console.log("from middle ware", req.hostname);
         next()
     } catch (error) {
         next(error)
@@ -17,10 +17,12 @@ const someData = (req: Request, res: Response, next: NextFunction) => {
 
 
 app.get('/', (req: Request, res: Response) => {
+    const a = 5;
+    console.log(a)
     res.send('Best Practice server!')
 })
 app.get("/test", someData, async (req: Request, res: Response) => {
-    res.send('post data send')
+    res.send('post data send practice')
 })
 
 // global route error handler
@@ -41,6 +43,7 @@ app.use((error: Err, req: Request, res: Response, next: NextFunction) => {
             message: "something went wrong"
         })
     }
+    next()
 })
 
 export default app;
