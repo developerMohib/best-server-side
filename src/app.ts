@@ -1,8 +1,9 @@
-import express, { NextFunction, Request, Response } from "express"
-const app = express()
-
+import express, { Application, NextFunction, Request, Response } from "express"
+const app: Application = express()
+import cors from "cors"
 // parsers
 app.use(express.json())
+app.use(cors())
 
 // middle wares
 const someData = (req: Request, res: Response, next: NextFunction) => {
