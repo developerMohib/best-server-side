@@ -8,7 +8,7 @@ app.use(cors());
 // middle wares
 const someData = (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log('from middle ware', req.hostname);
+    console.log('Yea habibi come to bd', req.hostname);
     next();
   } catch (error) {
     next(error);
@@ -17,7 +17,6 @@ const someData = (req: Request, res: Response, next: NextFunction) => {
 
 app.get('/', (req: Request, res: Response) => {
   const a: number = 5;
-  let b: number = 5;
   console.log(a);
   res.send('Best Practice server!');
 });

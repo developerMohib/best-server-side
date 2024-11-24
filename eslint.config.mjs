@@ -14,6 +14,8 @@ export default [
       'no-unused-vars': 'error',
       'no-unused-expressions': 'error',
       'no-console': 'warn',
+      'prefer-const': 'error',
+      'no-undef': 'error'
     },
   },
 ];

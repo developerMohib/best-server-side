@@ -9,7 +9,7 @@ const port = config.port;
 async function main() {
   try {
     await mongoose.connect(database_Url as string);
-    console.log('MongoDB connected succesfully');
+    console.log('MongoDB connected succesfully with Atlas');
     app.listen(port, () => {
       console.log(`Example app listening on port ${port}`);
     });

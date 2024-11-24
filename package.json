@@ -6,12 +6,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
-    "start": "node dist/server.js",
-    "watch": "ts-node-dev dist/server.js",
-    "nodemon": "start src/server.ts",
-    "dev": "nodemon",
-    "prettier": "prettier \"src/**/*.ts\" --ignore-path .gitignore --write",
-    "format": "prettier . --write"
+    "start:prod": "node dist/server.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "prettier": "prettier \"src/**/*.ts\" --ignore-path .gitignore --write"
   },
   "keywords": [],
   "author": "",
