@@ -57,7 +57,9 @@ const studentSchema = new Schema<IStudent>({
   },
   permanentAddres: String,
   presentAddres: String,
-  active: ['active', 'blocked'],
+  active: {type : String ,
+    enum :['active', 'blocked']
+  },
   guardian: guardianSchema,
   localGuardian: localGuardianSchema,
 });

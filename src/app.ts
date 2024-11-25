@@ -1,9 +1,15 @@
 import express, { Application, NextFunction, Request, Response } from 'express';
 const app: Application = express();
 import cors from 'cors';
+import { studentRoutes } from './modules/students/student.routes';
 // parsers
 app.use(express.json());
 app.use(cors());
+
+// routes here
+
+
+
 
 // middle wares
 const someData = (req: Request, res: Response, next: NextFunction) => {
@@ -15,13 +21,20 @@ const someData = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-app.get('/', (req: Request, res: Response) => {
-  const a: number = 5;
-  console.log(a);
-  res.send('Best Practice server!');
-});
 app.get('/test', someData, async (req: Request, res: Response) => {
   res.send('post data send practice');
+});
+
+// my routes
+app.use('/api/v1',studentRoutes)
+
+
+
+
+
+
+app.get('/', (req: Request, res: Response) => {
+  res.send('Best Practice server!');
 });
 
 // global route error handler
