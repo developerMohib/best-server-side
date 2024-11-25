@@ -8,9 +8,6 @@ app.use(cors());
 
 // routes here
 
-
-
-
 // middle wares
 const someData = (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -26,12 +23,7 @@ app.get('/test', someData, async (req: Request, res: Response) => {
 });
 
 // my routes
-app.use('/api/v1',studentRoutes)
-
-
-
-
-
+app.use('/api/v1', studentRoutes);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Best Practice server!');
