@@ -12,13 +12,25 @@ const createStudentIntoDB = async (
   }
 };
 // get all student from db
-const getAllStudentsFromDB = async (): Promise<IStudent[] | undefined> => {
+const getAllStudentsFromDB = async (): Promise<IStudent[] | null> => {
   try {
     const result = await Student.find();
     return result;
   } catch (error) {
     console.log(error);
+    return null 
   }
 };
 
-export { createStudentIntoDB, getAllStudentsFromDB };
+// get a single one student
+const getASingleStudentFromDB = async (id:string) : Promise<IStudent | null> => {
+  try {
+    const result = await Student.findOne({id})
+    return result
+  } catch (error) {
+    console.log(error)
+    return null
+  }
+}
+
+export { createStudentIntoDB, getAllStudentsFromDB,getASingleStudentFromDB };

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { IStudent } from './student.interface';
-import { createStudentIntoDB, getAllStudentsFromDB } from './student.services';
+import { createStudentIntoDB, getAllStudentsFromDB, getASingleStudentFromDB } from './student.services';
 
 // create a student
 const createStudent = async (req: Request, res: Response): Promise<void> => {
@@ -34,4 +34,19 @@ const getAllStudents = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { createStudent, getAllStudents };
+// get a single student
+const getASingleStudent = async (req: Request, res: Response) => {
+  try {
+    const studentId = req.params.id ;
+    const result  =await getASingleStudentFromDB(studentId) 
+    res.status(200).json({
+      success : true,
+      message : "Student is retrived successfully",
+      result
+    })
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { createStudent, getAllStudents,getASingleStudent };
