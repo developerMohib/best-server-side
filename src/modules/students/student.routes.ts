@@ -1,5 +1,9 @@
 import { Router } from 'express';
-import { createStudent, getAllStudents, getASingleStudent } from './student.controller';
+import {
+  createStudent,
+  getAllStudents,
+  getASingleStudent,
+} from './student.controller';
 
 const router = Router();
 

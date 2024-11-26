@@ -1,14 +1,14 @@
-import { IStudent } from './student.interface';
+import { CustomError, IStudent } from './student.interface';
 import { Student } from './student.schema';
 
 const createStudentIntoDB = async (
   studenData: IStudent,
-): Promise<IStudent | undefined> => {
+): Promise<IStudent | null> => {
   try {
     const result = await Student.create(studenData);
     return result;
   } catch (error) {
-    console.log(error);
+    throw new Error((error as CustomError).message);
   }
 };
 // get all student from db
@@ -17,20 +17,20 @@ const getAllStudentsFromDB = async (): Promise<IStudent[] | null> => {
     const result = await Student.find();
     return result;
   } catch (error) {
-    console.log(error);
-    return null 
+    throw new Error((error as CustomError).message);
   }
 };
 
 // get a single one student
-const getASingleStudentFromDB = async (id:string) : Promise<IStudent | null> => {
+const getASingleStudentFromDB = async (
+  id: string,
+): Promise<IStudent | null> => {
   try {
-    const result = await Student.findOne({id})
-    return result
+    const result = await Student.findOne({ id });
+    return result;
   } catch (error) {
-    console.log(error)
-    return null
+    throw new Error((error as CustomError).message);
   }
-}
+};
 
-export { createStudentIntoDB, getAllStudentsFromDB,getASingleStudentFromDB };
+export { createStudentIntoDB, getAllStudentsFromDB, getASingleStudentFromDB };

@@ -1,4 +1,8 @@
 // Create an interface representing a document in MongoDB.
+export type CustomError = {
+  message: string;
+};
+
 export interface IUserName {
   firstName: string;
   midName?: string;

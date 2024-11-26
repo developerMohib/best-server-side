@@ -6,8 +6,7 @@
 
 - open two cmd
 
-1. one for `tsc -w`
-2. another for `npm run dev`
+1. `npm run dev`
 
 # NOTICE
 
