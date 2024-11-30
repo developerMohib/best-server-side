@@ -6,6 +6,8 @@ import {
   ILocalGuardian,
   IStudent,
   IUserName,
+  StudentMethods,
+  StudentModel,
 } from './student.interface';
 
 // sub schema for user name
@@ -124,7 +126,7 @@ const localGuardianSchema = new Schema<ILocalGuardian>({
   address: { type: String, require: true, trim: true },
 });
 
-const studentSchema = new Schema<IStudent>({
+const studentSchema = new Schema<IStudent, StudentModel, StudentMethods>({
   id: {
     type: String,
     trim: true,
@@ -179,5 +181,11 @@ const studentSchema = new Schema<IStudent>({
   },
 });
 
+// custom method
+studentSchema.methods.isExistStudent = async function (id: string) {
+  const existingStudent = await Student.findOne({ id });
+  return existingStudent;
+};
+
 // 3. Create a Model.
-export const Student = model<IStudent>('Student', studentSchema);
+export const Student = model<IStudent, StudentModel>('Student', studentSchema);

@@ -2,10 +2,17 @@ import { CustomError, IStudent } from './student.interface';
 import { Student } from './student.schema';
 
 const createStudentIntoDB = async (
-  studenData: IStudent,
+  studentData: IStudent,
 ): Promise<IStudent | null> => {
   try {
-    const result = await Student.create(studenData);
+    // const result = await Student.create(studenData);  // build in static method
+
+    const newStudent = new Student(studentData);
+
+    if (await newStudent.isExistStudent(studentData.id)) {
+      throw new Error('This student already exists');
+    }
+    const result = await newStudent.save();
     return result;
   } catch (error) {
     throw new Error((error as CustomError).message);

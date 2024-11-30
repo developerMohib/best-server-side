@@ -24,34 +24,26 @@ const guardianValidationSchema = z.object({
     return firstChar;
   }),
 
-  fatherContactNo: z
-    .string()
-    .refine((value: string) => {
-      const firstChar = value.charAt(0).toUpperCase() + value.slice(1);
-      return firstChar;
-    }),
-  fatherProffession: z
-    .string()
-    .refine((value: string) => {
-      const firstChar = value.charAt(0).toUpperCase() + value.slice(1);
-      return firstChar;
-    }),
+  fatherContactNo: z.string().refine((value: string) => {
+    const firstChar = value.charAt(0).toUpperCase() + value.slice(1);
+    return firstChar;
+  }),
+  fatherProffession: z.string().refine((value: string) => {
+    const firstChar = value.charAt(0).toUpperCase() + value.slice(1);
+    return firstChar;
+  }),
   motherName: z.string().refine((value: string) => {
     const firstChar = value.charAt(0).toUpperCase() + value.slice(1);
     return firstChar;
   }),
-  motherContactNo: z
-    .string()
-    .refine((value: string) => {
-      const firstChar = value.charAt(0).toUpperCase() + value.slice(1);
-      return firstChar;
-    }),
-  motherProffession: z
-    .string()
-    .refine((value: string) => {
-      const firstChar = value.charAt(0).toUpperCase() + value.slice(1);
-      return firstChar;
-    }),
+  motherContactNo: z.string().refine((value: string) => {
+    const firstChar = value.charAt(0).toUpperCase() + value.slice(1);
+    return firstChar;
+  }),
+  motherProffession: z.string().refine((value: string) => {
+    const firstChar = value.charAt(0).toUpperCase() + value.slice(1);
+    return firstChar;
+  }),
 });
 
 const localGuardianValidationSchema = z.object({
@@ -63,13 +55,11 @@ const localGuardianValidationSchema = z.object({
     const firstChar = value.charAt(0).toUpperCase() + value.slice(1);
     return firstChar;
   }),
-  contact: z
-    .string()
-    .refine((value: string) => {
-      const firstChar = value.charAt(0).toUpperCase() + value.slice(1);
-      return firstChar;
-    }),
-    address : z.string()
+  contact: z.string().refine((value: string) => {
+    const firstChar = value.charAt(0).toUpperCase() + value.slice(1);
+    return firstChar;
+  }),
+  address: z.string(),
 });
 
 // student data validation using zod

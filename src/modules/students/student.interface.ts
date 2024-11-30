@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+import { Model } from 'mongoose';
+
 // Create an interface representing a document in MongoDB.
 export type CustomError = {
   message: string;
@@ -34,9 +37,16 @@ export interface IStudent {
   contactNo: string;
   emargancyContactNo: string;
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
-  presentAddres?:string | null;
+  presentAddres?: string | null;
   permanentAddres: string;
   guardian: IGuardian;
   localGuardian: ILocalGuardian;
   active: 'active' | 'blocked';
 }
+
+export interface StudentMethods {
+  isExistStudent(id: string): Promise<IStudent | null>;
+}
+
+// Create a new Model type that knows about IUserMethods...
+export type StudentModel = Model<IStudent, object, StudentMethods>;
