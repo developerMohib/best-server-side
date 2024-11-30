@@ -16,7 +16,7 @@ const userSchema = new Schema<IUserName>({
     trim: true,
     minlength: [2, 'First name minimum length 2'],
     maxlength: [20, 'First name maximun length 20 charecters'],
-    capitalize: {
+    validate: {
       validator: function (value: string) {
         const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1);
         return firstNameStr === value;

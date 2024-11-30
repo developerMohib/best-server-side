@@ -5,6 +5,7 @@ import {
   getAllStudentsFromDB,
   getASingleStudentFromDB,
 } from './student.services';
+import studentValidationData from './student.validation';
 
 // create a student
 const createStudent = async (
@@ -13,14 +14,16 @@ const createStudent = async (
 ): Promise<void | any> => {
   try {
     const { student: studenData }: { student: IStudent } = req.body;
-    if (!studenData) {
+
+    const studenValidData = studentValidationData.parse(studenData);
+    if (!studenValidData) {
       return res.status(400).json({
         success: false,
         message: 'Student data is required',
       });
     }
 
-    const result = await createStudentIntoDB(studenData);
+    const result = await createStudentIntoDB(studenValidData);
     res.status(200).json({
       success: true,
       message: 'Student is created successfully',

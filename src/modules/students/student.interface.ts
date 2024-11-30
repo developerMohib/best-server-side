@@ -5,7 +5,7 @@ export type CustomError = {
 
 export interface IUserName {
   firstName: string;
-  midName?: string;
+  midName?: string | null;
   lastName: string;
 }
 export interface ILocalGuardian {
@@ -28,13 +28,13 @@ export interface IStudent {
   id: string;
   name: IUserName;
   email: string;
-  image?: string;
+  image?: string | null;
   gender: 'male' | 'female';
-  birthDate?: string;
+  birthDate?: string | null;
   contactNo: string;
   emargancyContactNo: string;
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
-  presentAddres: string;
+  presentAddres?:string | null;
   permanentAddres: string;
   guardian: IGuardian;
   localGuardian: ILocalGuardian;
