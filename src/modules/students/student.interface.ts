@@ -43,6 +43,7 @@ export interface IStudent {
   guardian: IGuardian;
   localGuardian: ILocalGuardian;
   active: 'active' | 'blocked';
+  isDeleted : boolean;
 }
 
 export interface StudentMethods {

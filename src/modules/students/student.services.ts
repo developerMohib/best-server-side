@@ -35,11 +35,28 @@ const getASingleStudentFromDB = async (
   id: string,
 ): Promise<IStudent | null> => {
   try {
-    const result = await Student.findOne({ id });
+    // const result = await Student.findOne({ id });
+    const result = await Student.aggregate([{ $match: { id } }]);
+
+    return result.length > 0 ? (result[0] as IStudent) : null;
+  } catch (error) {
+    throw new Error((error as CustomError).message);
+  }
+};
+
+// delete a single one student, just stop the student
+const deleteStudentFromDB = async (id: string): Promise<IStudent | null> => {
+  try {
+    const result = await Student.findOneAndUpdate({ id }, { isDeleted: true });
     return result;
   } catch (error) {
     throw new Error((error as CustomError).message);
   }
 };
 
-export { createStudentIntoDB, getAllStudentsFromDB, getASingleStudentFromDB };
+export {
+  createStudentIntoDB,
+  getAllStudentsFromDB,
+  getASingleStudentFromDB,
+  deleteStudentFromDB,
+};

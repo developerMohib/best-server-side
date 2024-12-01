@@ -186,19 +186,41 @@ const studentSchema = new Schema<IStudent, StudentModel, StudentMethods>({
     type: localGuardianSchema,
     required: [true, 'Need to provide your guardian details'],
   },
+  isDeleted: { type: Boolean, default: false },
+},{
+  toJSON: {virtuals:true}
 });
+
+// mongoose middleware in useing before working data in database,
 
 // pre save user password with hash to db
 studentSchema.pre('save', async function (next) {
   const user = this;
-  user.password  = await bcrypt.hash(user.password, Number(config.solt_rounds));
+  user.password = await bcrypt.hash(user.password, Number(config.solt_rounds));
   next();
 });
 
 // after saving data password will be empty to user
-studentSchema.post('save',function(document,next){
-  document.password='';
-  next()
+studentSchema.post('save', function (document, next) {
+  document.password = '';
+  next();
+});
+
+// pre delete user from db,just isDeleted status true
+studentSchema.pre('find', async function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+// pre delete user from db,just isDeleted status true
+studentSchema.pre('aggregate', async function () {
+  const pipeline = this.pipeline();
+  pipeline.unshift({ $match: { isDeleted: { $ne: true } } });
+});
+
+// pre some field
+studentSchema.virtual('fullName').get(function(){
+ return `${this.name.firstName} ${this.name.midName} ${this.name.lastName} `
 })
 
 // custom method

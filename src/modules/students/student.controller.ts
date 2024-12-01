@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { IStudent } from './student.interface';
 import {
   createStudentIntoDB,
+  deleteStudentFromDB,
   getAllStudentsFromDB,
   getASingleStudentFromDB,
 } from './student.services';
@@ -89,4 +90,23 @@ const getASingleStudent = async (
   }
 };
 
-export { createStudent, getAllStudents, getASingleStudent };
+// delete a student from db
+const deleteStudent = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const studentId = req.params.id;
+    const result = await deleteStudentFromDB(studentId);
+    res.status(200).json({
+      success: true,
+      message: 'Student is deleted successfully',
+      result,
+    });
+  } catch (error: string | unknown) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong',
+      error,
+    });
+  }
+};
+
+export { createStudent, getAllStudents, getASingleStudent, deleteStudent };

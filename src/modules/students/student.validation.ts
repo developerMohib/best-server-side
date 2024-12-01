@@ -83,6 +83,7 @@ const studentValidationData = z.object({
   active: z.enum(['active', 'blocked']).default('active'),
   guardian: guardianValidationSchema,
   localGuardian: localGuardianValidationSchema,
+  isDeleted : z.boolean(),
 });
 
 export default studentValidationData;
