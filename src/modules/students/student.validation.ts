@@ -65,6 +65,7 @@ const localGuardianValidationSchema = z.object({
 // student data validation using zod
 const studentValidationData = z.object({
   id: z.string(),
+  password: z.string(),
   name: nameValidatiionScheam,
   email: z.string().email({ message: 'Use a valid email' }),
   image: z.string().optional(),

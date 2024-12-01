@@ -5,14 +5,16 @@ const createStudentIntoDB = async (
   studentData: IStudent,
 ): Promise<IStudent | null> => {
   try {
-    // const result = await Student.create(studenData);  // build in static method
-
+    // const result = await Student.create(studenData);  // custom mathod
     const newStudent = new Student(studentData);
 
     if (await newStudent.isExistStudent(studentData.id)) {
       throw new Error('This student already exists');
     }
+
+    // Save the new student if it doesn't exist
     const result = await newStudent.save();
+
     return result;
   } catch (error) {
     throw new Error((error as CustomError).message);

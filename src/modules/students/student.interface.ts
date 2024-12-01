@@ -29,6 +29,7 @@ export interface IGuardian {
 
 export interface IStudent {
   id: string;
+  password: string,
   name: IUserName;
   email: string;
   image?: string | null;

@@ -1,6 +1,7 @@
 // Create a Schema corresponding to the document interface.
 
 import { Schema, model } from 'mongoose';
+import bcrypt from 'bcrypt';
 import {
   IGuardian,
   ILocalGuardian,
@@ -9,6 +10,7 @@ import {
   StudentMethods,
   StudentModel,
 } from './student.interface';
+import config from '../../app/config';
 
 // sub schema for user name
 const userSchema = new Schema<IUserName>({
@@ -133,6 +135,11 @@ const studentSchema = new Schema<IStudent, StudentModel, StudentMethods>({
     required: [true, 'id is mandatory'],
     unique: true,
   },
+  password: {
+    type: String,
+    trim: true,
+    required: [true, 'password is mandatory'],
+  },
   name: {
     type: userSchema,
     trim: true,
@@ -180,6 +187,19 @@ const studentSchema = new Schema<IStudent, StudentModel, StudentMethods>({
     required: [true, 'Need to provide your guardian details'],
   },
 });
+
+// pre save user password with hash to db
+studentSchema.pre('save', async function (next) {
+  const user = this;
+  user.password  = await bcrypt.hash(user.password, Number(config.solt_rounds));
+  next();
+});
+
+// after saving data password will be empty to user
+studentSchema.post('save',function(document,next){
+  document.password='';
+  next()
+})
 
 // custom method
 studentSchema.methods.isExistStudent = async function (id: string) {
