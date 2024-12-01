@@ -5,6 +5,7 @@ import {
   deleteStudentFromDB,
   getAllStudentsFromDB,
   getASingleStudentFromDB,
+  updateStudentInDB,
 } from './student.services';
 import studentValidationData from './student.validation';
 
@@ -109,4 +110,34 @@ const deleteStudent = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { createStudent, getAllStudents, getASingleStudent, deleteStudent };
+// update data in database
+const updateStudent = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const studentId = req.params.id;
+    const updateData = req.body;
+
+    console.log( 119, studentId)
+
+    const result = await updateStudentInDB(studentId,updateData);
+
+    res.status(200).json({
+      success: true,
+      message: 'Student data updated successfully',
+      result,
+    });
+  } catch (error: string | unknown) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong',
+      error,
+    });
+  }
+};
+
+export {
+  createStudent,
+  getAllStudents,
+  getASingleStudent,
+  deleteStudent,
+  updateStudent,
+};
