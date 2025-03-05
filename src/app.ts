@@ -2,6 +2,7 @@ import express, { Application, NextFunction, Request, Response } from 'express';
 const app: Application = express();
 import cors from 'cors';
 import { studentRoutes } from './modules/students/student.routes';
+import path from 'path';
 // parsers
 app.use(express.json());
 app.use(cors());
@@ -24,8 +25,13 @@ app.get('/test', someData, async (req: Request, res: Response) => {
 
 // my routes
 app.use('/api/v1', studentRoutes);
+// server static files
+app.use(express.static(path.join(__dirname, '../public')));
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (req: Request, res: Response): void => {
+  res.sendFile(path.join(__dirname, '../public/', 'index.html'));
+});
+app.get('/health', (req: Request, res: Response) => {
   res.send('Best Practice server!');
 });
 
