@@ -21,10 +21,11 @@ const createStudent = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const { student: studenData } = req.body;
         const studenValidData = student_validation_1.default.parse(studenData);
         if (!studenValidData) {
-            return res.status(400).json({
+            res.status(400).json({
                 success: false,
                 message: 'Student data is required',
             });
+            return;
         }
         const result = yield (0, student_services_1.createStudentIntoDB)(studenValidData);
         res.status(200).json({
@@ -118,7 +119,6 @@ const updateStudent = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const studentId = req.params.id;
         const updateData = req.body;
-        console.log(119, studentId);
         const result = yield (0, student_services_1.updateStudentInDB)(studentId, updateData);
         res.status(200).json({
             success: true,

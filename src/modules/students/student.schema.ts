@@ -128,76 +128,88 @@ const localGuardianSchema = new Schema<ILocalGuardian>({
   address: { type: String, require: true, trim: true },
 });
 
-const studentSchema = new Schema<IStudent, StudentModel, StudentMethods>({
-  id: {
-    type: String,
-    trim: true,
-    required: [true, 'id is mandatory'],
-    unique: true,
-  },
-  password: {
-    type: String,
-    trim: true,
-    required: [true, 'password is mandatory'],
-  },
-  name: {
-    type: userSchema,
-    trim: true,
-    required: [true, 'name is required to give'],
-    capitalize: {
-      validator: function (value: string) {
-        const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1);
-        return firstNameStr === value;
-      },
-      message: '{VALUE} is not capitalize format',
+const studentSchema = new Schema<IStudent, StudentModel, StudentMethods>(
+  {
+    id: {
+      type: String,
+      trim: true,
+      required: [true, 'id is mandatory'],
+      unique: true,
     },
+    password: {
+      type: String,
+      trim: true,
+      required: [true, 'password is mandatory'],
+    },
+    name: {
+      type: userSchema,
+      trim: true,
+      required: [true, 'name is required to give'],
+      capitalize: {
+        validator: function (value: string) {
+          const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1);
+          return firstNameStr === value;
+        },
+        message: '{VALUE} is not capitalize format',
+      },
+    },
+    email: {
+      type: String,
+      required: [true, 'Provide a valid email'],
+      match: [/^\S+@\S+\.\S+$/, 'Invalid email format'],
+      unique: true,
+      trim: true,
+    },
+    image: { type: String, trim: true },
+    gender: { type: String, enum: ['male', 'female'], required: true },
+    birthDate: String,
+    contactNo: {
+      type: String,
+      require: [true, 'Contact is required'],
+      match: [/^\d{11}$/, 'Contact number have to exactly 11 '],
+      unique: true,
+    },
+    emargancyContactNo: {
+      type: String,
+      require: [true, 'Contact is required'],
+      match: [/^\d{11}$/, 'Contact number have to exactly 11 '],
+      unique: true,
+    },
+    bloodGroup: {
+      type: String,
+      enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+    },
+    permanentAddres: { type: String, trim: true },
+    presentAddres: { type: String, trim: true },
+    active: { type: String, enum: ['active', 'blocked'], default: 'active' },
+    guardian: guardianSchema,
+    localGuardian: {
+      type: localGuardianSchema,
+      required: [true, 'Need to provide your guardian details'],
+    },
+    isDeleted: { type: Boolean, default: false },
   },
-  email: {
-    type: String,
-    required: [true, 'Provide a valid email'],
-    match: [/^\S+@\S+\.\S+$/, 'Invalid email format'],
-    unique: true,
-    trim: true,
+  {
+    toJSON: { virtuals: true },
   },
-  image: { type: String, trim: true },
-  gender: { type: String, enum: ['male', 'female'], required: true },
-  birthDate: String,
-  contactNo: {
-    type: String,
-    require: [true, 'Contact is required'],
-    match: [/^\d{11}$/, 'Contact number have to exactly 11 '],
-    unique: true,
-  },
-  emargancyContactNo: {
-    type: String,
-    require: [true, 'Contact is required'],
-    match: [/^\d{11}$/, 'Contact number have to exactly 11 '],
-    unique: true,
-  },
-  bloodGroup: {
-    type: String,
-    enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
-  },
-  permanentAddres: { type: String, trim: true },
-  presentAddres: { type: String, trim: true },
-  active: { type: String, enum: ['active', 'blocked'], default: 'active' },
-  guardian: guardianSchema,
-  localGuardian: {
-    type: localGuardianSchema,
-    required: [true, 'Need to provide your guardian details'],
-  },
-  isDeleted: { type: Boolean, default: false },
-},{
-  toJSON: {virtuals:true}
-});
+);
 
 // mongoose middleware in useing before working data in database,
 
 // pre save user password with hash to db
 studentSchema.pre('save', async function (next) {
-  const user = this;
-  user.password = await bcrypt.hash(user.password, Number(config.solt_rounds));
+  if (!this.isModified('password')) {
+    return next();
+  }
+  // user.password = await bcrypt.hash(user.password, Number(config.solt_rounds));
+  // next();
+this.password = await bcrypt.hash(
+    this.password,
+    Number(config.solt_rounds)
+  );
+
   next();
+
 });
 
 // after saving data password will be empty to user
@@ -219,9 +231,9 @@ studentSchema.pre('aggregate', async function () {
 });
 
 // pre some field
-studentSchema.virtual('fullName').get(function(){
- return `${this.name.firstName} ${this.name.midName} ${this.name.lastName} `
-})
+studentSchema.virtual('fullName').get(function () {
+  return `${this.name.firstName} ${this.name.midName} ${this.name.lastName} `;
+});
 
 // custom method
 studentSchema.methods.isExistStudent = async function (id: string) {

@@ -13,16 +13,17 @@ import studentValidationData from './student.validation';
 const createStudent = async (
   req: Request,
   res: Response,
-): Promise<void | any> => {
+): Promise<void> => {
   try {
     const { student: studenData }: { student: IStudent } = req.body;
 
     const studenValidData = studentValidationData.parse(studenData);
     if (!studenValidData) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         message: 'Student data is required',
       });
+      return ;
     }
 
     const result = await createStudentIntoDB(studenValidData);
@@ -115,9 +116,6 @@ const updateStudent = async (req: Request, res: Response): Promise<void> => {
   try {
     const studentId = req.params.id;
     const updateData = req.body;
-
-    console.log( 119, studentId)
-
     const result = await updateStudentInDB(studentId,updateData);
 
     res.status(200).json({

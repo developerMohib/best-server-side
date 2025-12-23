@@ -190,14 +190,18 @@ const studentSchema = new mongoose_1.Schema({
     },
     isDeleted: { type: Boolean, default: false },
 }, {
-    toJSON: { virtuals: true }
+    toJSON: { virtuals: true },
 });
 // mongoose middleware in useing before working data in database,
 // pre save user password with hash to db
 studentSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
-        const user = this;
-        user.password = yield bcrypt_1.default.hash(user.password, Number(config_1.default.solt_rounds));
+        if (!this.isModified('password')) {
+            return next();
+        }
+        // user.password = await bcrypt.hash(user.password, Number(config.solt_rounds));
+        // next();
+        this.password = yield bcrypt_1.default.hash(this.password, Number(config_1.default.solt_rounds));
         next();
     });
 });
