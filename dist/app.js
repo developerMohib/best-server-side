@@ -16,6 +16,7 @@ const express_1 = __importDefault(require("express"));
 const app = (0, express_1.default)();
 const cors_1 = __importDefault(require("cors"));
 const student_routes_1 = require("./modules/students/student.routes");
+const path_1 = __importDefault(require("path"));
 // parsers
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
@@ -35,7 +36,12 @@ app.get('/test', someData, (req, res) => __awaiter(void 0, void 0, void 0, funct
 }));
 // my routes
 app.use('/api/v1', student_routes_1.studentRoutes);
+// server static files
+app.use(express_1.default.static(path_1.default.join(__dirname, '../public')));
 app.get('/', (req, res) => {
+    res.sendFile(path_1.default.join(__dirname, '../public/', 'index.html'));
+});
+app.get('/health', (req, res) => {
     res.send('Best Practice server!');
 });
 // global route error handler
