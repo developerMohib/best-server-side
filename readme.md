@@ -63,10 +63,3 @@ ts-node
 
 ---
 
-If you want, I can also:
-- Rename routes to **REST standard** (`/students`)
-- Add **.env example**
-- Add **MongoDB / Mongoose section**
-- Make it **interview-ready README**
-
-Just say the word 🚀
